@@ -195,7 +195,7 @@ struct m0_dev_cfg {
 #define CSD_CLIENT_LIBPATH "/system/lib/libcsd-client.so"
 
 void *mCsdHandle;
-int rx_dev_id, tx_dev_id;
+int rx_dev_id, tx_dev_id, old_rx_dev;
 int voice_index;
 
 static int (*csd_client_init)();
@@ -410,8 +410,13 @@ static int start_call(struct m0_audio_device *adev)
 
     bt_on = adev->out_device & AUDIO_DEVICE_OUT_ALL_SCO;
 
-    /* use amr-wb by default */
-    pcm_config_vx.rate = VX_WB_SAMPLING_RATE;
+    if(bt_on){
+       /* use amr-nb for bluetooth */
+       pcm_config_vx.rate = VX_NB_SAMPLING_RATE;
+    }else{
+       /* use amr-wb by default */
+       pcm_config_vx.rate = VX_WB_SAMPLING_RATE;
+    }
 
     /* Open modem PCM channels */
     if (adev->pcm_modem_dl == NULL) {
@@ -439,9 +444,6 @@ static int start_call(struct m0_audio_device *adev)
     /* Open bluetooth PCM channels */
     if (bt_on) {
         ALOGV("Opening bluetooth PCMs");
-        /* use amr-nb for bluetooth */
-        pcm_config_vx.rate = VX_NB_SAMPLING_RATE;
-
         if (adev->pcm_bt_dl == NULL) {
             ALOGD("Opening PCM bluetooth DL stream");
             adev->pcm_bt_dl = pcm_open(CARD_DEFAULT, PORT_BT, PCM_OUT, &pcm_config_vx);
@@ -500,7 +502,7 @@ static void end_call(struct m0_audio_device *adev)
     adev->pcm_modem_dl = NULL;
     adev->pcm_modem_ul = NULL;
 
-    if (bt_on) {
+    if (bt_on || old_rx_dev == DEVICE_BT_SCO_RX_ACDB_ID) {
         if (adev->pcm_bt_dl != NULL) {
             ALOGD("Stopping bluetooth DL PCM");
             pcm_stop(adev->pcm_bt_dl);
@@ -556,7 +558,7 @@ static void set_incall_device(struct m0_audio_device *adev)
                 rx_dev_id = DEVICE_BT_SCO_RX_ACDB_ID;
                 tx_dev_id = DEVICE_BT_SCO_TX_ACDB_ID;
             }
-            voice_index = 5;
+            voice_index = 7;
             break;
         default:
             rx_dev_id = DEVICE_HANDSET_RX_ACDB_ID;
@@ -591,6 +593,15 @@ static void set_incall_device(struct m0_audio_device *adev)
     }
 
     adev_set_voice_volume(&adev->hw_device, adev->voice_volume);
+
+    /* Restart pcm only if switching off or onto bt to adjust to amr */
+    if(old_rx_dev == DEVICE_BT_SCO_RX_ACDB_ID || rx_dev_id == DEVICE_BT_SCO_RX_ACDB_ID){
+        ALOGI("%s: old_rx_dev: %i", __func__, old_rx_dev);
+        end_call(adev);
+        start_call(adev);
+    }
+
+    old_rx_dev = rx_dev_id;
 }
 
 static void set_input_volumes(struct m0_audio_device *adev, int main_mic_on,
@@ -650,7 +661,6 @@ static void select_mode(struct m0_audio_device *adev)
                 adev->out_device &= ~AUDIO_DEVICE_OUT_SPEAKER;
             select_output_device(adev);
             start_call(adev);
-            //adev_set_voice_volume(&adev->hw_device, adev->voice_volume);
             adev->in_call = 1;
         }
     } else {
@@ -775,9 +785,6 @@ static void select_output_device(struct m0_audio_device *adev)
         }
 
         if (bt_on) {
-            // bt uses a different port (PORT_BT) for playback, reopen the pcms
-            end_call(adev);
-            start_call(adev);
             ALOGD("%s: set voicecall route: bt_input", __func__);
             set_bigroute_by_array(adev->mixer, bt_input, 1);
             ALOGD("%s: set voicecall route: bt_output", __func__);

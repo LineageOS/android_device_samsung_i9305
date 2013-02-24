@@ -4,6 +4,7 @@
 #
 
 busybox cp /system/vendor/firmware/SlimISP_GD.bin /data/cfw/SlimISP_GD.bin
+busybox cp /system/vendor/firmware/SlimISP_GH.bin /data/cfw/SlimISP_GH.bin
 busybox cp /system/vendor/firmware/SlimISP_ZD.bin /data/cfw/SlimISP_ZD.bin
 busybox chown system /data/cfw/*
 busybox chgrp media /data/cfw/*

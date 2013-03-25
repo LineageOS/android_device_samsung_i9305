@@ -21,8 +21,13 @@
 
 LOCAL_PATH := device/samsung/i9305
 
+TARGET_SPECIFIC_HEADER_PATH := device/samsung/i9305/include
+
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
+
+# GPS
+BOARD_HAVE_NEW_QC_GPS := true
 
 # RIL
 COMMON_GLOBAL_CFLAGS += -DPROPERTY_PERMS_APPEND='{ "ril.ks.status", AID_SYSTEM, 0 },'

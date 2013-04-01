@@ -299,3 +299,13 @@ struct route_setting bt_disable[] = {
     { .ctl_name = "AIF1ADC1L Mixer AIF2 Switch", .intval = 0, },
     { .ctl_name = NULL, },
 };
+
+struct route_setting speaker_output[] = {
+    { .ctl_name = "Speaker Boost Volume", .intval = 5, },
+    { .ctl_name = NULL, },
+};
+
+struct route_setting speaker_output_disable[] = {
+    { .ctl_name = "Speaker Boost Volume", .intval = 4, },
+    { .ctl_name = NULL, },
+};

@@ -252,8 +252,8 @@ void setCsdHandle(void* handle)
  *        hw device > in stream > out stream
  */
 
-static void select_output_device(struct m0_audio_device *adev);
-static void select_input_device(struct m0_audio_device *adev);
+static void select_output_device(struct m0_audio_device *adev, int force);
+static void select_input_device(struct m0_audio_device *adev, int force);
 static int adev_set_voice_volume(struct audio_hw_device *dev, float volume);
 static int do_input_standby(struct m0_stream_in *in);
 static int do_output_standby(struct m0_stream_out *out);
@@ -363,12 +363,12 @@ static int set_route_by_array(struct mixer *mixer, struct route_setting *route,
 }
 
 /* Must be called with lock */
-void select_devices(struct m0_audio_device *adev)
+void select_devices(struct m0_audio_device *adev, int force)
 {
     int i;
 
-    if (adev->active_out_device == adev->out_device && adev->active_in_device == adev->in_device)
-    return;
+    if (adev->active_out_device == adev->out_device && adev->active_in_device == adev->in_device && force != 1)
+        return;
 
     ALOGV("Changing output device %x => %x\n", adev->active_out_device, adev->out_device);
     ALOGV("Changing input device %x => %x\n", adev->active_in_device, adev->in_device);
@@ -540,7 +540,7 @@ static void set_incall_device(struct m0_audio_device *adev)
         case AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET:
         case AUDIO_DEVICE_OUT_AUX_DIGITAL:
             rx_dev_id = DEVICE_SPEAKER_MONO_RX_ACDB_ID;
-            tx_dev_id = DEVICE_SPEAKER_TX_ACDB_ID;
+            tx_dev_id = DEVICE_HANDSET_TX_ACDB_ID;
             voice_index = 7;
             break;
         case AUDIO_DEVICE_OUT_WIRED_HEADSET:
@@ -660,7 +660,7 @@ static void select_mode(struct m0_audio_device *adev)
                 adev->in_device = AUDIO_DEVICE_IN_BUILTIN_MIC & ~AUDIO_DEVICE_BIT_IN;
             } else
                 adev->out_device &= ~AUDIO_DEVICE_OUT_SPEAKER;
-            select_output_device(adev);
+            select_output_device(adev, 0);
             start_call(adev);
             adev->in_call = 1;
         }
@@ -683,13 +683,13 @@ static void select_mode(struct m0_audio_device *adev)
             }
 
             force_all_standby(adev);
-            select_output_device(adev);
-            select_input_device(adev);
+            select_output_device(adev, 1);
+            select_input_device(adev, 1);
         }
     }
 }
 
-static void select_output_device(struct m0_audio_device *adev)
+static void select_output_device(struct m0_audio_device *adev, int force)
 {
     int headset_on;
     int headphone_on;
@@ -738,7 +738,7 @@ static void select_output_device(struct m0_audio_device *adev)
             break;
     }
 
-    select_devices(adev);
+    select_devices(adev, force);
 
     set_eq_filter(adev);
 
@@ -783,6 +783,14 @@ static void select_output_device(struct m0_audio_device *adev)
             set_bigroute_by_array(adev->mixer, default_input_disable, 1);
         }
 
+        if (speaker_on) {
+            ALOGD("%s: set voicecall route: speaker_output", __func__);
+            set_bigroute_by_array(adev->mixer, speaker_output, 1);
+        } else {
+            ALOGD("%s: set voicecall route: speaker_output_disable", __func__);
+            set_bigroute_by_array(adev->mixer, speaker_output_disable, 1);
+        }
+
         if (headset_on) {
             ALOGD("%s: set voicecall route: headset_input", __func__);
             set_bigroute_by_array(adev->mixer, headset_input, 1);
@@ -804,7 +812,7 @@ static void select_output_device(struct m0_audio_device *adev)
     }
 }
 
-static void select_input_device(struct m0_audio_device *adev)
+static void select_input_device(struct m0_audio_device *adev, int force)
 {
     switch(adev->in_device) {
         case AUDIO_DEVICE_IN_BUILTIN_MIC:
@@ -823,7 +831,7 @@ static void select_input_device(struct m0_audio_device *adev)
             break;
     }
 
-    select_devices(adev);
+    select_devices(adev, force);
 }
 
 /* must be called with hw device and output stream mutexes locked */
@@ -835,7 +843,7 @@ static int start_output_stream_low_latency(struct m0_stream_out *out)
     bool success = true;
 
     if (adev->mode != AUDIO_MODE_IN_CALL) {
-        select_output_device(adev);
+        select_output_device(adev, 0);
     }
 
     /* default to low power: will be corrected in out_write if necessary before first write to
@@ -889,7 +897,7 @@ static int start_output_stream_deep_buffer(struct m0_stream_out *out)
     struct m0_audio_device *adev = out->dev;
 
     if (adev->mode != AUDIO_MODE_IN_CALL) {
-        select_output_device(adev);
+        select_output_device(adev, 0);
     }
 
     out->write_threshold = PLAYBACK_DEEP_BUFFER_LONG_PERIOD_COUNT * DEEP_BUFFER_LONG_PERIOD_SIZE;
@@ -1224,7 +1232,7 @@ static int out_set_parameters(struct audio_stream *stream, const char *kvpairs)
             }
             if (out != adev->outputs[OUTPUT_HDMI]) {
                 adev->out_device = val;
-                select_output_device(adev);
+                select_output_device(adev, 0);
             }
         }
         pthread_mutex_unlock(&out->lock);
@@ -1515,7 +1523,7 @@ static int start_input_stream(struct m0_stream_in *in)
 
     if (adev->mode != AUDIO_MODE_IN_CALL) {
         adev->in_device = in->device;
-        select_input_device(adev);
+        select_input_device(adev, 0);
     }
 
     if (in->aux_channels_changed)
@@ -1616,7 +1624,7 @@ static int do_input_standby(struct m0_stream_in *in)
         adev->active_input = 0;
         if (adev->mode != AUDIO_MODE_IN_CALL) {
             adev->in_device = AUDIO_DEVICE_NONE;
-            select_input_device(adev);
+            select_input_device(adev, 0);
         }
 
         if (in->echo_reference != NULL) {
@@ -2646,7 +2654,7 @@ static int adev_set_parameters(struct audio_hw_device *dev, const char *kvpairs)
         if (tty_mode != adev->tty_mode) {
             adev->tty_mode = tty_mode;
             if (adev->mode == AUDIO_MODE_IN_CALL)
-                select_output_device(adev);
+                select_output_device(adev, 0);
         }
         pthread_mutex_unlock(&adev->lock);
     }
@@ -3204,7 +3212,7 @@ static int adev_open(const hw_module_t* module, const char* name,
     adev->mode = AUDIO_MODE_NORMAL;
     adev->out_device = AUDIO_DEVICE_OUT_SPEAKER;
     adev->in_device = AUDIO_DEVICE_IN_BUILTIN_MIC & ~AUDIO_DEVICE_BIT_IN;
-    select_devices(adev);
+    select_devices(adev, 0);
 
     adev->pcm_modem_dl = NULL;
     adev->pcm_modem_ul = NULL;

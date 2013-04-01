@@ -708,6 +708,8 @@ static void select_output_device(struct m0_audio_device *adev)
     switch(adev->out_device) {
         case AUDIO_DEVICE_OUT_SPEAKER:
             ALOGD("%s: AUDIO_DEVICE_OUT_SPEAKER", __func__);
+            ALOGD("%s: reset voicecall route: speaker_output_default", __func__);
+            set_bigroute_by_array(adev->mixer, speaker_output_default, 1);
             break;
         case AUDIO_DEVICE_OUT_WIRED_HEADSET:
             ALOGD("%s: AUDIO_DEVICE_OUT_WIRED_HEADSET", __func__);
@@ -781,6 +783,14 @@ static void select_output_device(struct m0_audio_device *adev)
         } else {
             ALOGD("%s: set voicecall route: default_input_disable", __func__);
             set_bigroute_by_array(adev->mixer, default_input_disable, 1);
+        }
+
+        if (speaker_on) {
+            ALOGD("%s: set voicecall route: speaker_output", __func__);
+            set_bigroute_by_array(adev->mixer, speaker_output_incall, 1);
+        } else {
+            ALOGD("%s: set voicecall route: speaker_output_incall", __func__);
+            set_bigroute_by_array(adev->mixer, speaker_output_default, 1);
         }
 
         if (headset_on) {

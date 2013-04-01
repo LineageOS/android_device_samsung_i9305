@@ -367,8 +367,8 @@ void select_devices(struct m0_audio_device *adev)
 {
     int i;
 
-    if (adev->active_out_device == adev->out_device && adev->active_in_device == adev->in_device)
-    return;
+    //if (adev->active_out_device == adev->out_device && adev->active_in_device == adev->in_device)
+    //return;
 
     ALOGV("Changing output device %x => %x\n", adev->active_out_device, adev->out_device);
     ALOGV("Changing input device %x => %x\n", adev->active_in_device, adev->in_device);
@@ -518,6 +518,9 @@ static void end_call(struct m0_audio_device *adev)
     }
     adev->pcm_bt_dl = NULL;
     adev->pcm_bt_ul = NULL;
+
+    select_output_device(adev);
+
 }
 
 static void set_eq_filter(struct m0_audio_device *adev)
@@ -781,6 +784,14 @@ static void select_output_device(struct m0_audio_device *adev)
         } else {
             ALOGD("%s: set voicecall route: default_input_disable", __func__);
             set_bigroute_by_array(adev->mixer, default_input_disable, 1);
+        }
+
+        if (speaker_on) {
+            ALOGD("%s: set voicecall route: speaker_output", __func__);
+            set_bigroute_by_array(adev->mixer, speaker_output, 1);
+        } else {
+            ALOGD("%s: set voicecall route: speaker_output_disable", __func__);
+            set_bigroute_by_array(adev->mixer, speaker_output_disable, 1);
         }
 
         if (headset_on) {

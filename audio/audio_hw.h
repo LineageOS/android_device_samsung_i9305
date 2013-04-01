@@ -196,6 +196,16 @@ struct route_setting default_input[] = {
     { .ctl_name = NULL, },
 };
 
+struct route_setting speaker_output[] = {
+    { .ctl_name = "Speaker Boost Volume", .intval = 5, },
+    { .ctl_name = NULL, },
+};
+
+struct route_setting speaker_output_disable[] = {
+    { .ctl_name = "Speaker Boost Volume", .intval = 4, },
+    { .ctl_name = NULL, },
+};
+
 struct route_setting default_input_disable[] = {
     { .ctl_name = "Main Mic Switch", .intval = 0, },
     { .ctl_name = "IN2L Volume", .intval = 4, },

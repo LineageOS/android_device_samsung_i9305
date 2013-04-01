@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAeX//1EU\u003d",
+        "filename": "audio/audio_hw.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 523
+      },
+      "writtenOn": "2013-04-01T16:16:30Z",
+      "side": 1,
+      "message": "shouldn\u0027t be there. non incall can be handled via xml config.",
+      "revId": "56d9c288e7ad192678069937be0e1a422a8f995e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}

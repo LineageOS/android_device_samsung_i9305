@@ -43,7 +43,8 @@ PRODUCT_COPY_FILES += \
 
 # Product specific Packages
 PRODUCT_PACKAGES += \
-    GalaxyS3Settings
+    GalaxyS3Settings \
+    SamsungServiceMode
 
 # NFC
 PRODUCT_PACKAGES += \

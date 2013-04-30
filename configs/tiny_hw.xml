@@ -213,7 +213,26 @@ We are able to have most of our routing static so do that
         <ctl name="AIF2DAC2R Mixer AIF1.1 Switch" val="0"/>
     </path>
 </device>
-<device name="dock">
+<device name="analogue-dock">
+    <path name="on">
+        <ctl name="LINEOUT2N Switch" val="1"/>
+        <ctl name="LINEOUT2P Switch" val="1"/>
+        <ctl name="LINEOUT2N Mixer Left Output Switch" val="1"/>
+        <ctl name="LINEOUT2N Mixer Right Output Switch" val="0"/>
+        <ctl name="LINEOUT2P Mixer Right Output Switch" val="1"/>
+        <ctl name="LINE Switch" val="1"/>
+        <ctl name="LineoutSwitch Mode" val="1"/>
+        <ctl name="Left Output Mixer DAC Volume" val="7"/>
+        <ctl name="Right Output Mixer DAC Volume" val="7"/>
+    </path>
+    <path name="off">
+        <ctl name="LineoutSwitch Mode" val="0"/>
+        <ctl name="LINEOUT2N Switch" val="0"/>
+        <ctl name="LINEOUT2P Switch" val="0"/>
+        <ctl name="LINE Switch" val="0"/>
+    </path>
+</device>
+<device name="digital-dock">
     <path name="on">
         <ctl name="LINEOUT2N Switch" val="1"/>
         <ctl name="LINEOUT2P Switch" val="1"/>

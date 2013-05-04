@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAfX//+tA\u003d",
+        "filename": "DeviceSettings/res/values-fr/strings.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5596
+      },
+      "writtenOn": "2013-05-04T20:09:18Z",
+      "side": 1,
+      "message": "Estompage de la LED\nAccording to https://github.com/CyanogenMod/android_device_samsung_n7100/blob/cm-10.1/DeviceSettings/res/values-fr/strings.xml",
+      "revId": "4dcb373b7417aea44eb5c526d7094d7863681e66",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfX//+tE\u003d",
+        "filename": "DeviceSettings/res/values-fr/strings.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5596
+      },
+      "writtenOn": "2013-05-04T20:09:18Z",
+      "side": 1,
+      "message": "Activer l\\\u0027estompage de la LED au lieu du clignotement.\nAccording to https://github.com/CyanogenMod/android_device_samsung_n7100/blob/cm-10.1/DeviceSettings/res/values-fr/strings.xml",
+      "revId": "4dcb373b7417aea44eb5c526d7094d7863681e66",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}

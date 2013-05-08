@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAfn///Pw\u003d",
+        "filename": "DeviceSettings/res/values-fr/strings.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5596
+      },
+      "writtenOn": "2013-05-08T20:52:41Z",
+      "side": 1,
+      "message": "Ok, pas de souci. D\u0027autres avis ?",
+      "parentUuid": "AAAAfn///84\u003d",
+      "revId": "4dcb373b7417aea44eb5c526d7094d7863681e66",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAfX//+tE\u003d",
         "filename": "DeviceSettings/res/values-fr/strings.xml",
         "patchSetId": 1
@@ -48,6 +66,40 @@
       "writtenOn": "2013-05-04T20:09:18Z",
       "side": 1,
       "message": "Activer l\\\u0027estompage de la LED au lieu du clignotement.\nAccording to https://github.com/CyanogenMod/android_device_samsung_n7100/blob/cm-10.1/DeviceSettings/res/values-fr/strings.xml",
+      "revId": "4dcb373b7417aea44eb5c526d7094d7863681e66",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn///Ps\u003d",
+        "filename": "DeviceSettings/res/values-fr/strings.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5596
+      },
+      "writtenOn": "2013-05-08T20:52:41Z",
+      "side": 1,
+      "message": "Temps vs Délai",
+      "revId": "4dcb373b7417aea44eb5c526d7094d7863681e66",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn///Po\u003d",
+        "filename": "DeviceSettings/res/values-fr/strings.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5596
+      },
+      "writtenOn": "2013-05-08T20:52:41Z",
+      "side": 1,
+      "message": "délai vs temps",
       "revId": "4dcb373b7417aea44eb5c526d7094d7863681e66",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false

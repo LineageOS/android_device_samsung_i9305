@@ -1522,7 +1522,8 @@ static int start_input_stream(struct m0_stream_in *in)
     adev->active_input = in;
 
     if (adev->mode != AUDIO_MODE_IN_CALL) {
-        adev->in_device = in->device;
+        /* force the use of both AUDIO_DEVICE_IN_BACK_MIC and AUDIO_DEVICE_IN_BUILTIN_MIC to allow stereo video recording */
+        adev->in_device = (AUDIO_DEVICE_IN_BACK_MIC | AUDIO_DEVICE_IN_BUILTIN_MIC) & ~AUDIO_DEVICE_BIT_IN;;
         select_input_device(adev, 0);
     }
 

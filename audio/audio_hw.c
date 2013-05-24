@@ -370,6 +370,12 @@ void select_devices(struct m0_audio_device *adev, int force)
     if (adev->active_out_device == adev->out_device && adev->active_in_device == adev->in_device && force != 1)
         return;
 
+    /* Force the use of both AUDIO_DEVICE_IN_BACK_MIC and AUDIO_DEVICE_IN_BUILTIN_MIC if the
+       device AUDIO_DEVICE_IN_BACK_MIC is selected.  This will allow stereo recording */
+
+    if (adev->in_device == AUDIO_DEVICE_IN_BACK_MIC)
+        adev->in_device = (AUDIO_DEVICE_IN_BACK_MIC | AUDIO_DEVICE_IN_BUILTIN_MIC);
+
     ALOGV("Changing output device %x => %x\n", adev->active_out_device, adev->out_device);
     ALOGV("Changing input device %x => %x\n", adev->active_in_device, adev->in_device);
 

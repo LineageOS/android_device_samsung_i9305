@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "iG50yfw",
+        "filename": "DeviceSettings/res/values-nl/strings.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 2881
+      },
+      "writtenOn": "2013-06-02T22:20:22Z",
+      "side": 1,
+      "message": "deze optie staat duidelijk onder het kopje \"Aanraakknoppen\".\nIn het Engels heet het zowel voor het scherm, als voor de knoppen \"Backlight\". Andere suggestie?\n\nIk refereer steeds aan i9100, daar hebben we dit ook zo goedgekeurd",
+      "parentUuid": "iG4d6bw",
+      "revId": "6ffd5243322e3f262a4e1f162af4b39bbbf6ede5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "iK4jAQU",
         "filename": "DeviceSettings/res/values-nl/strings.xml",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-02T22:10:15Z",
       "side": 1,
       "message": "niet oplichten? (summary_off)?",
+      "revId": "6ffd5243322e3f262a4e1f162af4b39bbbf6ede5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "iE5g5TU",
+        "filename": "DeviceSettings/res/values-nl/strings.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 2881
+      },
+      "writtenOn": "2013-06-02T22:20:22Z",
+      "side": 1,
+      "message": "Bij checkboxes mag de summary niet veranderen volgens Google. De checkbox zelf geeft al duidelijk aan of de optie aan of uit staat.\n\nhttp://developer.android.com/design/patterns/settings.html",
+      "parentUuid": "iK4jAQU",
       "revId": "6ffd5243322e3f262a4e1f162af4b39bbbf6ede5",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false

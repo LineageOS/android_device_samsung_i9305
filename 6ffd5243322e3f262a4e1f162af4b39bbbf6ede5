@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "iK7YofA",
+        "filename": "DeviceSettings/res/values-nl/strings.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 2881
+      },
+      "writtenOn": "2013-06-02T23:45:34Z",
+      "side": 1,
+      "message": "Daar heb je wel een punt. In het Engels is het \"Enable Keys Backlight\", omdat de knoppen vanaf de achterkant worden verlicht denk ik.\n\n\"Aanraakknopverlichting\" vind ik dan wel een goede. \n\nMaar dan blijf ik wel voorstander van \"oplichten\" in de string hieronder.",
+      "parentUuid": "iE7HxRI",
+      "revId": "6ffd5243322e3f262a4e1f162af4b39bbbf6ede5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "iK4jAQU",
         "filename": "DeviceSettings/res/values-nl/strings.xml",
         "patchSetId": 2

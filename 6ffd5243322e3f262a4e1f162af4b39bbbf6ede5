@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "iE7HxRI",
+        "filename": "DeviceSettings/res/values-nl/strings.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 2248
+      },
+      "writtenOn": "2013-06-02T22:35:47Z",
+      "side": 1,
+      "message": "Ik was getriggerd door de discussie over de knoppen oplichten: de knoppen geven zelf licht, dus is het eigenlijk geen achtergrondlicht?!\nAanraaknopverlichting zou dan beter zijn?",
+      "parentUuid": "iG50yfw",
+      "revId": "6ffd5243322e3f262a4e1f162af4b39bbbf6ede5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "iK4jAQU",
         "filename": "DeviceSettings/res/values-nl/strings.xml",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Bij checkboxes mag de summary niet veranderen volgens Google. De checkbox zelf geeft al duidelijk aan of de optie aan of uit staat.\n\nhttp://developer.android.com/design/patterns/settings.html",
       "parentUuid": "iK4jAQU",
+      "revId": "6ffd5243322e3f262a4e1f162af4b39bbbf6ede5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "iM5U9VU",
+        "filename": "DeviceSettings/res/values-nl/strings.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 2248
+      },
+      "writtenOn": "2013-06-02T22:35:47Z",
+      "side": 1,
+      "message": "OK, er zijn volgens mij ook genoeg plekken in CM waar deze regel niet wordt aangehouden, maar wat mij betreft is het prima zo: gewoon netjes de regels volgen is prima.",
+      "parentUuid": "iE5g5TU",
       "revId": "6ffd5243322e3f262a4e1f162af4b39bbbf6ede5",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false

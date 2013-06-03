@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "iJE04N4",
+        "filename": "DeviceSettings/res/values-nl/strings.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 2881
+      },
+      "writtenOn": "2013-06-03T02:48:12Z",
+      "side": 1,
+      "message": "Uit de handleiding van de Note: http://www.belsimpel.nl/handleidingen/Samsung-Galaxy-Note-i9220-handleiding-nederlands.pdf\n\n\"Duur verlichting aanraaktoets: de duur van de \nachtergrondverlichting voor de aanraaktoetsen instellen.\"\n\nEn nu?",
+      "parentUuid": "iG7iiaE",
+      "revId": "6ffd5243322e3f262a4e1f162af4b39bbbf6ede5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "iK4jAQU",
         "filename": "DeviceSettings/res/values-nl/strings.xml",
         "patchSetId": 2

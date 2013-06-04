@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "iJygd5I",
+        "filename": "DeviceSettings/res/values-nl/strings.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 2248
+      },
+      "writtenOn": "2013-06-04T14:52:27Z",
+      "side": 1,
+      "message": "Kijk, als dat de officiële manier van beschrijven is vind ik het prima om het ook op die manier hier te vertalen. Ik denk alleen dat de strings \"achtergrondverlichting voor de aanraaktoetsen\" te lang is, en de huidige string \"achtergrondlicht\" vind ik enerzijds verwarrend (zie mijn eerste comment), maar omdat deze onder de kop \"aanraakknoppen\" staat denk ik niet dat het in de praktijk voor verwarring zal zorgen.",
+      "parentUuid": "iJE04N4",
+      "revId": "6ffd5243322e3f262a4e1f162af4b39bbbf6ede5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "iK4jAQU",
         "filename": "DeviceSettings/res/values-nl/strings.xml",
         "patchSetId": 2

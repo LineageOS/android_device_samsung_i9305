@@ -25,6 +25,7 @@
 #include <pthread.h>
 #include <stdint.h>
 #include <sys/time.h>
+#include <sys/stat.h>
 #include <stdlib.h>
 #include <expat.h>
 #include <dlfcn.h>
@@ -196,7 +197,6 @@ struct m0_dev_cfg {
 
 void *mCsdHandle;
 int rx_dev_id, tx_dev_id, old_rx_dev;
-int voice_index;
 
 static int (*csd_client_init)();
 static int (*csd_client_deinit)();
@@ -252,8 +252,8 @@ void setCsdHandle(void* handle)
  *        hw device > in stream > out stream
  */
 
-static void select_output_device(struct m0_audio_device *adev, int force);
-static void select_input_device(struct m0_audio_device *adev, int force);
+static void select_output_device(struct m0_audio_device *adev);
+static void select_input_device(struct m0_audio_device *adev);
 static int adev_set_voice_volume(struct audio_hw_device *dev, float volume);
 static int do_input_standby(struct m0_stream_in *in);
 static int do_output_standby(struct m0_stream_out *out);
@@ -363,12 +363,12 @@ static int set_route_by_array(struct mixer *mixer, struct route_setting *route,
 }
 
 /* Must be called with lock */
-void select_devices(struct m0_audio_device *adev, int force)
+void select_devices(struct m0_audio_device *adev)
 {
     int i;
 
-    if (adev->active_out_device == adev->out_device && adev->active_in_device == adev->in_device && force != 1)
-        return;
+    if (adev->active_out_device == adev->out_device && adev->active_in_device == adev->in_device)
+    return;
 
     ALOGV("Changing output device %x => %x\n", adev->active_out_device, adev->out_device);
     ALOGV("Changing input device %x => %x\n", adev->active_in_device, adev->in_device);
@@ -533,7 +533,6 @@ static void set_incall_device(struct m0_audio_device *adev)
         case AUDIO_DEVICE_OUT_EARPIECE:
             rx_dev_id = DEVICE_HANDSET_RX_ACDB_ID;
             tx_dev_id = DEVICE_HANDSET_TX_ACDB_ID;
-            voice_index = 5;
             break;
         case AUDIO_DEVICE_OUT_SPEAKER:
         case AUDIO_DEVICE_OUT_ANLG_DOCK_HEADSET:
@@ -541,13 +540,11 @@ static void set_incall_device(struct m0_audio_device *adev)
         case AUDIO_DEVICE_OUT_AUX_DIGITAL:
             rx_dev_id = DEVICE_SPEAKER_MONO_RX_ACDB_ID;
             tx_dev_id = DEVICE_HANDSET_TX_ACDB_ID;
-            voice_index = 7;
             break;
         case AUDIO_DEVICE_OUT_WIRED_HEADSET:
         case AUDIO_DEVICE_OUT_WIRED_HEADPHONE:
             rx_dev_id = DEVICE_HEADSET_RX_ACDB_ID;
             tx_dev_id = DEVICE_HEADSET_TX_ACDB_ID;
-            voice_index = 5;
             break;
         case AUDIO_DEVICE_OUT_BLUETOOTH_SCO:
         case AUDIO_DEVICE_OUT_BLUETOOTH_SCO_HEADSET:
@@ -559,12 +556,10 @@ static void set_incall_device(struct m0_audio_device *adev)
                 rx_dev_id = DEVICE_BT_SCO_RX_ACDB_ID;
                 tx_dev_id = DEVICE_BT_SCO_TX_ACDB_ID;
             }
-            voice_index = 7;
             break;
         default:
             rx_dev_id = DEVICE_HANDSET_RX_ACDB_ID;
             tx_dev_id = DEVICE_HANDSET_TX_ACDB_ID;
-            voice_index = 5;
             break;
     }
 
@@ -610,8 +605,25 @@ static void set_input_volumes(struct m0_audio_device *adev, int main_mic_on,
 {
 }
 
-static void set_output_volumes(struct m0_audio_device *adev, bool tty_volume)
+static void set_output_volumes(struct m0_audio_device *adev)
 {
+    int volume;
+
+    switch(adev->out_device) {
+      case AUDIO_DEVICE_OUT_SPEAKER:
+          volume = get_volume(OUT_SPEAKER);
+          ALOGV("%s: SPEAKER Volume: %i", __func__, volume);
+          mixer_ctl_set_value(adev->mixer_ctls.speaker_volume,0,volume);
+          mixer_ctl_set_value(adev->mixer_ctls.speaker_volume,1,volume);
+          break;
+      case AUDIO_DEVICE_OUT_WIRED_HEADSET:
+      case AUDIO_DEVICE_OUT_WIRED_HEADPHONE:
+          volume = get_volume(OUT_HEADPHONE);
+          ALOGV("%s: HEADPHONE Volume: %i", __func__, volume);
+          mixer_ctl_set_value(adev->mixer_ctls.headphone_volume,0,volume);
+          mixer_ctl_set_value(adev->mixer_ctls.headphone_volume,1,volume);
+          break;
+    }
 }
 
 static void force_all_standby(struct m0_audio_device *adev)
@@ -660,7 +672,7 @@ static void select_mode(struct m0_audio_device *adev)
                 adev->in_device = AUDIO_DEVICE_IN_BUILTIN_MIC & ~AUDIO_DEVICE_BIT_IN;
             } else
                 adev->out_device &= ~AUDIO_DEVICE_OUT_SPEAKER;
-            select_output_device(adev, 0);
+            select_output_device(adev);
             start_call(adev);
             adev->in_call = 1;
         }
@@ -683,13 +695,13 @@ static void select_mode(struct m0_audio_device *adev)
             }
 
             force_all_standby(adev);
-            select_output_device(adev, 1);
-            select_input_device(adev, 1);
+            select_output_device(adev);
+            select_input_device(adev);
         }
     }
 }
 
-static void select_output_device(struct m0_audio_device *adev, int force)
+static void select_output_device(struct m0_audio_device *adev)
 {
     int headset_on;
     int headphone_on;
@@ -738,9 +750,11 @@ static void select_output_device(struct m0_audio_device *adev, int force)
             break;
     }
 
-    select_devices(adev, force);
+    select_devices(adev);
 
     set_eq_filter(adev);
+
+    set_output_volumes(adev);
 
     if (adev->mode == AUDIO_MODE_IN_CALL) {
         if (!bt_on) {
@@ -812,7 +826,7 @@ static void select_output_device(struct m0_audio_device *adev, int force)
     }
 }
 
-static void select_input_device(struct m0_audio_device *adev, int force)
+static void select_input_device(struct m0_audio_device *adev)
 {
     int input_device = AUDIO_DEVICE_BIT_IN | adev->in_device;
 
@@ -835,7 +849,7 @@ static void select_input_device(struct m0_audio_device *adev, int force)
             break;
     }
 
-    select_devices(adev, force);
+    select_devices(adev);
 }
 
 /* must be called with hw device and output stream mutexes locked */
@@ -847,7 +861,7 @@ static int start_output_stream_low_latency(struct m0_stream_out *out)
     bool success = true;
 
     if (adev->mode != AUDIO_MODE_IN_CALL) {
-        select_output_device(adev, 0);
+        select_output_device(adev);
     }
 
     /* default to low power: will be corrected in out_write if necessary before first write to
@@ -901,7 +915,7 @@ static int start_output_stream_deep_buffer(struct m0_stream_out *out)
     struct m0_audio_device *adev = out->dev;
 
     if (adev->mode != AUDIO_MODE_IN_CALL) {
-        select_output_device(adev, 0);
+        select_output_device(adev);
     }
 
     out->write_threshold = PLAYBACK_DEEP_BUFFER_LONG_PERIOD_COUNT * DEEP_BUFFER_LONG_PERIOD_SIZE;
@@ -1236,7 +1250,7 @@ static int out_set_parameters(struct audio_stream *stream, const char *kvpairs)
             }
             if (out != adev->outputs[OUTPUT_HDMI]) {
                 adev->out_device = val;
-                select_output_device(adev, 0);
+                select_output_device(adev);
             }
         }
         pthread_mutex_unlock(&out->lock);
@@ -1527,7 +1541,7 @@ static int start_input_stream(struct m0_stream_in *in)
 
     if (adev->mode != AUDIO_MODE_IN_CALL) {
         adev->in_device = in->device;
-        select_input_device(adev, 0);
+        select_input_device(adev);
     }
 
     if (in->aux_channels_changed)
@@ -1628,7 +1642,7 @@ static int do_input_standby(struct m0_stream_in *in)
         adev->active_input = 0;
         if (adev->mode != AUDIO_MODE_IN_CALL) {
             adev->in_device = AUDIO_DEVICE_NONE;
-            select_input_device(adev, 0);
+            select_input_device(adev);
         }
 
         if (in->echo_reference != NULL) {
@@ -2658,7 +2672,7 @@ static int adev_set_parameters(struct audio_hw_device *dev, const char *kvpairs)
         if (tty_mode != adev->tty_mode) {
             adev->tty_mode = tty_mode;
             if (adev->mode == AUDIO_MODE_IN_CALL)
-                select_output_device(adev, 0);
+                select_output_device(adev);
         }
         pthread_mutex_unlock(&adev->lock);
     }
@@ -2727,8 +2741,11 @@ static int adev_init_check(const struct audio_hw_device *dev)
 static int adev_set_voice_volume(struct audio_hw_device *dev, float volume)
 {
     struct m0_audio_device *adev = (struct m0_audio_device *)dev;
+    int voice_index;
 
     adev->voice_volume = volume;
+
+    voice_index = update_voice_index(adev);
 
     ALOGD("%s: Voice Index: %i", __func__, voice_index);
 
@@ -2736,12 +2753,42 @@ static int adev_set_voice_volume(struct audio_hw_device *dev, float volume)
         if (csd_volume_index == NULL) {
             ALOGE("dlsym: Error:%s Loading csd_volume_index", dlerror());
         } else {
-            volume = volume * voice_index;
+            volume = volume * (float)voice_index;
             ALOGD("%s: calling csd_volume_index(%f)", __func__, volume);
             csd_volume_index(volume);
         }
     }
     return 0;
+}
+
+int update_voice_index(struct m0_audio_device *adev)
+{
+      int voice_index;
+
+      switch(adev->out_device) {
+        case AUDIO_DEVICE_OUT_EARPIECE:
+            voice_index = get_volume(INCALL_EARPIECE);
+            break;
+        case AUDIO_DEVICE_OUT_SPEAKER:
+        case AUDIO_DEVICE_OUT_ANLG_DOCK_HEADSET:
+        case AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET:
+        case AUDIO_DEVICE_OUT_AUX_DIGITAL:
+            voice_index = get_volume(INCALL_SPEAKER);
+            break;
+        case AUDIO_DEVICE_OUT_WIRED_HEADSET:
+        case AUDIO_DEVICE_OUT_WIRED_HEADPHONE:
+            voice_index = get_volume(INCALL_HEADPHONE);
+            break;
+        case AUDIO_DEVICE_OUT_BLUETOOTH_SCO:
+        case AUDIO_DEVICE_OUT_BLUETOOTH_SCO_HEADSET:
+        case AUDIO_DEVICE_OUT_BLUETOOTH_SCO_CARKIT:
+            voice_index = get_volume(INCALL_BT);
+            break;
+        default:
+            voice_index = get_volume(INCALL_EARPIECE);
+            break;
+    }
+    return voice_index;
 }
 
 static int adev_set_master_volume(struct audio_hw_device *dev, float volume)
@@ -3163,11 +3210,63 @@ static int adev_config_parse(struct m0_audio_device *adev)
     return ret;
 }
 
+static int volume_file_check()
+{
+  FILE *f;
+  int i;
+  int default_voice_vol = 5;
+  int default_stream_vol = 50;
+  struct stat st = {0};
+
+  if (stat(AUDIO_DIR, &st) == -1) {
+    ALOGE("Directory %s does not exist, skip creating volume files\n", AUDIO_DIR);
+    return -ENODEV;
+  }
+
+  for ( i = 0; i < MAX_NUM_VOLUME_FILES; i++ ) {
+    f = fopen(volume_file[i], "r");
+    if(!f){
+      ALOGW("Failed to open %s, attempting to create file\n", volume_file[i]);
+      f = fopen(volume_file[i], "w");
+      if(!f){
+        ALOGE("Failed to create %s\n", volume_file[i]);
+        continue;
+      }else{
+        ALOGI("Successfully created %s\n", volume_file[i]);
+        /* first 4 files are for incall voice, anything over that is considered streaming out */
+        if(i > 3)
+           fprintf(f, "%d", default_stream_vol);
+        else
+           fprintf(f, "%d", default_voice_vol);
+        fclose(f);
+        chmod(volume_file[i], 0666);
+      }
+    }else{
+      chmod(volume_file[i],0666);
+    }
+  }
+
+  return 0;
+}
+
+int get_volume(char *file)
+{
+  FILE *f;
+  int index = 1;
+
+  f = fopen(file, "r");
+  if(f) {
+    fscanf(f, "%i", &index);
+    fclose(f);
+  }
+  return index;
+}
+
 static int adev_open(const hw_module_t* module, const char* name,
                      hw_device_t** device)
 {
     struct m0_audio_device *adev;
-    int ret;
+    int ret, volfs;
 
     if (strcmp(name, AUDIO_HARDWARE_INTERFACE) != 0)
         return -EINVAL;
@@ -3207,16 +3306,22 @@ static int adev_open(const hw_module_t* module, const char* name,
     adev->mixer_ctls.mixinl_in1l_volume = mixer_get_ctl_by_name(adev->mixer, "MIXINL IN1L Volume");
     adev->mixer_ctls.mixinl_in2l_volume = mixer_get_ctl_by_name(adev->mixer, "MIXINL IN2L Volume");
 
+    /* speaker/headphone volume control*/
+    adev->mixer_ctls.speaker_volume = mixer_get_ctl_by_name(adev->mixer, "Speaker Volume");
+    adev->mixer_ctls.headphone_volume = mixer_get_ctl_by_name(adev->mixer, "Headphone Volume");
+
     ret = adev_config_parse(adev);
     if (ret != 0)
         goto err_mixer;
+
+    volfs = volume_file_check();
 
     /* Set the default route before the PCM stream is opened */
     pthread_mutex_lock(&adev->lock);
     adev->mode = AUDIO_MODE_NORMAL;
     adev->out_device = AUDIO_DEVICE_OUT_SPEAKER;
     adev->in_device = AUDIO_DEVICE_IN_BUILTIN_MIC & ~AUDIO_DEVICE_BIT_IN;
-    select_devices(adev, 0);
+    select_devices(adev);
 
     adev->pcm_modem_dl = NULL;
     adev->pcm_modem_ul = NULL;

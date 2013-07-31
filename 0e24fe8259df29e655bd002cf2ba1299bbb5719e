@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aca2d91_67f51a82",
+        "filename": "rootdir/fstab.smdk4x12",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 523
+      },
+      "writtenOn": "2013-07-31T04:58:08Z",
+      "side": 1,
+      "message": "move data above sdcard, otherwise you might get bootloops",
+      "revId": "0e24fe8259df29e655bd002cf2ba1299bbb5719e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}

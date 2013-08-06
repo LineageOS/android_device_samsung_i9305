@@ -35,6 +35,10 @@ COMMON_GLOBAL_CFLAGS += -DCAMERA_WITH_CITYID_PARAM
 TARGET_KERNEL_SOURCE := kernel/samsung/smdk4412
 TARGET_KERNEL_CONFIG := cyanogenmod_i9305_defconfig
 
+# Recovery
+TARGET_RECOVERY_FSTAB := device/samsung/i9305/rootdir/fstab.smdk4x12
+RECOVERY_FSTAB_VERSION := 2
+
 # assert
 TARGET_OTA_ASSERT_DEVICE := m3,m3xx,i9305,GT-I9305
 

@@ -42,6 +42,10 @@ on post-fs-data
     # an ack packet comes out of order
     write /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal 1
 
+    restorecon /efs/FactoryApp/keystr
+    restorecon /efs/FactoryApp/factorymode
+    restorecon /efs/FactoryApp/serial_no
+
     # for AT distributor
     chown system radio /sys/module/cpuidle_exynos4/parameters/enable_mask
     chmod 0664 /sys/module/cpuidle_exynos4/parameters/enable_mask
@@ -94,11 +98,13 @@ service SMD-daemon /system/bin/smdexe
 service qc_kickstart /system/bin/qcks s
     class core
     user root
+    seclabel u:r:kickstart:s0
     group radio cache inet misc audio sdcard_rw log
 
 service secril-daemon /system/bin/sec-ril
     class main
     user root
+    seclabel u:r:secril-daemon:s0
     group radio cache inet misc audio sdcard_rw qcom_diag log
 
 #For EncryptionMode - remove disabled, Modify class main
@@ -110,6 +116,7 @@ service qmiproxy /system/bin/qmiproxy
 service qmuxd /system/bin/qmuxd
     class main
     user root
+    seclabel u:r:qmux:s0
     group radio log audio bluetooth gps log
 
 #start GNSS/Sensor interface daemon

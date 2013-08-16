@@ -44,3 +44,25 @@ TARGET_OTA_ASSERT_DEVICE := m3,m3xx,i9305,GT-I9305
 
 # inherit from the proprietary version
 -include vendor/samsung/i9305/BoardConfigVendor.mk
+
+# Selinux
+BOARD_SEPOLICY_DIRS := \
+    device/samsung/i9305/selinux
+
+BOARD_SEPOLICY_UNION := \
+    file_contexts \
+    te_macros \
+    device.te \
+    dhcp.te \
+    domain.te \
+    file.te \
+    init.te \
+    kickstart.te \
+    mediaserver.te \
+    netmgrd.te \
+    qmux.te \
+    rild.te \
+    secril.te \
+    system.te \
+    ueventd.te \
+    wpa_supplicant.te

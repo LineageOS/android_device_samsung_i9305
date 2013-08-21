@@ -50,9 +50,6 @@ on post-fs-data
     chown system radio /sys/devices/platform/mdm_hsic_pm0/waketime
     chmod 0660 /sys/devices/platform/mdm_hsic_pm0/waketime
 
-    mkdir /data/local/audio 0775 media audio
-    chown media audio /data/local/audio
-
     chown radio system /sys/devices/platform/samsung-pd.5/s3c-fimc.2/range_mode
     chmod 0660 /sys/devices/platform/samsung-pd.5/s3c-fimc.2/range_mode
 

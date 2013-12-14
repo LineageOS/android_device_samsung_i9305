@@ -49,6 +49,13 @@ on post-fs-data
     restorecon /efs/FactoryApp/serial_no
     restorecon /efs/imei/mps_code.dat
     restorecon /efs/wifi/.mac.info
+    restorecon /tombstones
+    restorecon /tombstones/qcks
+    restorecon /tombstones/qcks/acdb.bin
+    restorecon /tombstones/qcks/efs1.bin
+    restorecon /tombstones/qcks/efs2.bin
+    restorecon /tombstones/qcks/efs3.bin
+    restorecon /tombstones/qcks/temp.dump
 
     # for AT distributor
     chown system radio /sys/module/cpuidle_exynos4/parameters/enable_mask

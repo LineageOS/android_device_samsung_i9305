@@ -49,6 +49,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     DeviceSettings
 
+# Sensors
+PRODUCT_PACKAGES += \
+    sensors.smdk4x12
+
 # NFC
 PRODUCT_PACKAGES += \
     nfc.exynos4 \

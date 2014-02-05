@@ -2,7 +2,7 @@
 # system.prop for i9305
 #
 
-rild.libpath=/system/lib/libril-qc-qmi-1.so
+rild.libpath=/system/lib/libsec-ril.so
 rild.libargs=-d /dev/ttyS0
 ro.telephony.default_network=9
 telephony.lteOnGsmDevice=1

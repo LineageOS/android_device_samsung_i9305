@@ -540,7 +540,7 @@ static void set_incall_device(struct m0_audio_device *adev)
         case AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET:
         case AUDIO_DEVICE_OUT_AUX_DIGITAL:
             rx_dev_id = DEVICE_SPEAKER_MONO_RX_ACDB_ID;
-            tx_dev_id = DEVICE_HANDSET_TX_ACDB_ID;
+            tx_dev_id = DEVICE_SPEAKER_TX_ACDB_ID;
             voice_index = 9;
             break;
         case AUDIO_DEVICE_OUT_WIRED_HEADSET:
@@ -781,14 +781,6 @@ static void select_output_device(struct m0_audio_device *adev)
         } else {
             ALOGD("%s: set voicecall route: default_input_disable", __func__);
             set_bigroute_by_array(adev->mixer, default_input_disable, 1);
-        }
-
-        if (speaker_on) {
-            ALOGD("%s: set voicecall route: speaker_output", __func__);
-            set_bigroute_by_array(adev->mixer, speaker_output, 1);
-        } else {
-            ALOGD("%s: set voicecall route: speaker_output_disable", __func__);
-            set_bigroute_by_array(adev->mixer, speaker_output_disable, 1);
         }
 
         if (headset_on) {

@@ -684,7 +684,7 @@ static void select_mode(struct m0_audio_device *adev)
                     ALOGE("%s: csd_stop_voice error %d\n", __func__, err);
                 }
             }
-
+            adev->in_device = AUDIO_DEVICE_NONE;
             force_all_standby(adev);
             select_output_device(adev);
             select_input_device(adev);

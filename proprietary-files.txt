@@ -35,5 +35,6 @@ system/lib/libril-qcril-hook-oem.so
 system/lib/libsecnativefeature.so
 system/lib/libsecril-client.so
 system/lib/libsec-ril.so
+system/lib/hw/sensors.smdk4x12.so
 system/usr/keylayout/sec_touchkey.kl
 

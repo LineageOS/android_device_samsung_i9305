@@ -113,5 +113,4 @@ service qmiproxy /system/bin/qmiproxy
 service qmuxd /system/bin/qmuxd
     class main
     user root
-    seclabel u:r:qmux:s0
     group radio log audio bluetooth gps log

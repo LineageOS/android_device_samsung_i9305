@@ -73,8 +73,9 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
     frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml
 
-# Include common makefile
-$(call inherit-product, device/samsung/smdk4412-common/common.mk)
-$(call inherit-product, device/samsung/smdk4412-qcom-common/common.mk)
+# Include device blobs first
+$(call inherit-product, vendor/samsung/i9305/i9305-vendor.mk)
 
-$(call inherit-product-if-exists, vendor/samsung/i9305/i9305-vendor.mk)
+# Include common makefile
+$(call inherit-product, device/samsung/smdk4412-qcom-common/common.mk)
+$(call inherit-product, device/samsung/smdk4412-common/common.mk)

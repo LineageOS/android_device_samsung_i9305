@@ -36,10 +36,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/tiny_hw.xml:system/etc/sound/m3
 
-# Camera
-PRODUCT_PACKAGES += \
-    camera.smdk4x12
-
 # Product specific Packages
 PRODUCT_PACKAGES += \
     DeviceSettings

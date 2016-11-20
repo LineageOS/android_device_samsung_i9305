@@ -53,6 +53,10 @@ PRODUCT_PACKAGES += \
     libsecril-client \
     libsecril-client-sap
 
+# Sensors
+PRODUCT_PACKAGES += \
+    sensors.smdk4x12
+
 PRODUCT_COPY_FILES += \
     packages/apps/Nfc/migrate_nfc.txt:system/etc/updatecmds/migrate_nfc.txt \
     frameworks/base/nfc-extras/com.android.nfc_extras.xml:system/etc/permissions/com.android.nfc_extras.xml \

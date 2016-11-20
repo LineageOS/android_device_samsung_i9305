@@ -36,6 +36,10 @@ TARGET_KERNEL_CONFIG := cyanogenmod_i9305_defconfig
 TARGET_RECOVERY_FSTAB := device/samsung/i9305/rootdir/fstab.smdk4x12
 RECOVERY_FSTAB_VERSION := 2
 
+# RIL
+BOARD_PROVIDES_LIBRIL := true
+BOARD_MODEM_TYPE := mdm9x35
+
 # assert
 TARGET_OTA_ASSERT_DEVICE := m3,m3xx,i9305,GT-I9305
 

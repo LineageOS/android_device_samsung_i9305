@@ -22,6 +22,8 @@
 
 LOCAL_PATH := device/samsung/i9305
 
+TARGET_SPECIFIC_HEADER_PATH += $(LOCAL_PATH)/include
+
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 

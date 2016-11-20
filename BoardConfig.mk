@@ -14,8 +14,11 @@
 # limitations under the License.
 #
 
--include device/samsung/smdk4412-qcom-common/BoardCommonConfig.mk
+# This variable is set first, so it can be overridden
+# by BoardConfigVendor.mk
+
 -include device/samsung/smdk4412-common/BoardCommonConfig.mk
+-include device/samsung/smdk4412-qcom-common/BoardCommonConfig.mk
 
 LOCAL_PATH := device/samsung/i9305
 
@@ -23,8 +26,7 @@ LOCAL_PATH := device/samsung/i9305
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 
 # RIL
-BOARD_PROVIDES_LIBRIL := true
-BOARD_MODEM_TYPE := mdm9x35
+COMMON_GLOBAL_CFLAGS += -DPROPERTY_PERMS_APPEND='{ "ril.ks.status", AID_SYSTEM, 0 },'
 
 # Camera
 COMMON_GLOBAL_CFLAGS += -DCAMERA_WITH_CITYID_PARAM
@@ -40,6 +42,27 @@ RECOVERY_FSTAB_VERSION := 2
 # assert
 TARGET_OTA_ASSERT_DEVICE := m3,m3xx,i9305,GT-I9305
 
+# inherit from the proprietary version
+-include vendor/samsung/i9305/BoardConfigVendor.mk
+
 # Selinux
 BOARD_SEPOLICY_DIRS += \
     device/samsung/i9305/selinux
+
+BOARD_SEPOLICY_UNION += \
+    file_contexts \
+    te_macros \
+    device.te \
+    dhcp.te \
+    domain.te \
+    file.te \
+    init.te \
+    kickstart.te \
+    mediaserver.te \
+    netmgrd.te \
+    qmux.te \
+    rild.te \
+    secril.te \
+    system.te \
+    ueventd.te \
+    wpa_supplicant.te

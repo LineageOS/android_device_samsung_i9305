@@ -1,0 +1,13 @@
+type qmuxd, domain;
+type qmuxd_exec, exec_type, file_type;
+
+init_daemon_domain(qmuxd)
+domain_trans(init, rootfs, qmuxd)
+
+allow qmuxd radio_device:chr_file { read write open };
+allow qmuxd radio_device:dir search;
+allow qmuxd radio_device:file { write open };
+allow qmuxd socket_device:dir { write remove_name add_name };
+allow qmuxd socket_device:sock_file { create unlink getattr setattr };
+allow qmuxd self:capability { setuid setpcap };
+allow qmuxd sysfs_wake_lock:file { open append };

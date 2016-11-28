@@ -1,8 +1,8 @@
 allow system_server efs_file:dir search;
-allow system_server uhid_device:chr_file { read write };
+allow system_server uhid_device:chr_file { ioctl open read write };
 allow system_server self:capability sys_module;
-allow system_server socket_device:dir write;
 allow system_server sensors_device:chr_file { read write };
-allow system_server socket_device:dir add_name;
-allow system_server uhid_device:chr_file open;
-allow system_server efs_file:file read;
+allow system_server socket_device:dir { write add_name };
+allow system_server efs_file:file { open read };
+allow system_server qmuxd:unix_stream_socket connectto;
+allow system_server socket_device:sock_file { write create setattr };

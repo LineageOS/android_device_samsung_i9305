@@ -1,0 +1,3 @@
+allow domain kernel:system module_request;
+allow domain log_device:chr_file { read write open };
+allow domain log_device:dir search;

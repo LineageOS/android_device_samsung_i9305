@@ -6,18 +6,14 @@ domain_trans(init, rootfs, qcks)
 
 allow qcks efsks_exec:file { read getattr open execute execute_no_trans };
 allow qcks ks_exec:file { read getattr open execute execute_no_trans };
-allow qcks mmc_block_device:blk_file getattr;
+allow qcks mmc_block_device:blk_file { read open write getattr };
 allow qcks radio_device:chr_file { read getattr open ioctl };
 allow qcks self:capability setuid;
 allow qcks serial_device:chr_file { read write getattr open ioctl };
-allow qcks shell_exec:file execute_no_trans;
 allow qcks vfat:file { read getattr open };
-allow qcks mmc_block_device:blk_file { read open };
 allow qcks radio_data_file:dir search;
-allow qcks radio_data_file:file { read write getattr open };
-allow qcks radio_data_file:file setattr;
-allow qcks mmc_block_device:blk_file write;
+allow qcks radio_data_file:file { setattr read write getattr open };
 allow qcks vfat:dir search;
-allow qcks shell_exec:file { read execute open };
+allow qcks shell_exec:file { execute_no_trans read execute open };
 allow qcks radio_device:dir search;
 allow qcks unlabeled:dir search;

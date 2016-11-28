@@ -1,5 +1,3 @@
-allow sysinit camera_data_file:dir { read open };
-allow sysinit camera_data_file:file setattr;
 allow sysinit self:capability { fowner chown fsetid };
-allow sysinit camera_data_file:dir getattr;
-allow sysinit camera_data_file:file { read write getattr open };
+allow sysinit camera_data_file:file { create setattr read write getattr open };
+allow sysinit camera_data_file:dir { read open search write add_name getattr };

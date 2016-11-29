@@ -1,1 +1,2 @@
 allow ueventd radio_device:file { getattr write open };
+allow ueventd sysfs_bluetooth_writable:file { open write };

@@ -8,6 +8,8 @@
 
 /data/.cid.info					u:object_r:wifi_data_file:s0
 
+/sys/devices/platform/bcm4334_bluetooth(/.*)?	u:object_r:sysfs_bluetooth_writable:s0
+/sys/class/rfkill(/.*)?				u:object_r:sysfs_bluetooth_writable:s0
 /efs/bluetooth/bt_addr				u:object_r:bluetooth_data_file:s0
 
 /dev/akm8975					u:object_r:sensors_device:s0

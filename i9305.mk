@@ -57,6 +57,9 @@ PRODUCT_PACKAGES += \
     libsecril-client \
     libsecril-client-sap
 
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.telephony.ril_class=smdk4x12QComRIL
+
 # Sensors
 PRODUCT_PACKAGES += \
     sensors.smdk4x12

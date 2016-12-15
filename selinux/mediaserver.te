@@ -7,3 +7,4 @@ allow mediaserver socket_device:dir { add_name write };
 allow mediaserver socket_device:sock_file { setattr write create };
 allow mediaserver qmuxd:unix_stream_socket connectto;
 allow mediaserver mnt_user_file:lnk_file read;
+allow mediaserver sysfs_wake_lock:file { read write open };

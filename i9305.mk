@@ -39,7 +39,7 @@ PRODUCT_COPY_FILES += \
 # Camera
 PRODUCT_PACKAGES += \
     camera.smdk4x12
-
+    
 # Product specific Packages
 PRODUCT_PACKAGES += \
     DeviceSettings
@@ -56,6 +56,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libsecril-client \
     libsecril-client-sap
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    mobiledata.interfaces=pdp0,gprs,ppp0,rmnet0,rmnet1
 
 # Sensors
 PRODUCT_PACKAGES += \

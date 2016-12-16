@@ -48,7 +48,42 @@ on post-fs-data
     chown system radio /dev/block/platform/dw_mmc/by-name
     chmod 0775 /dev/block/platform/dw_mmc/by-name
 
-# Allow QMUX daemon to assign port open wait time
+# QCRIL
+
+    chown system radio /sys/power/wake_lock
+    chmod 0666 /sys/power/wake_lock
+    chown system radio /sys/android_power/acquire_partial_wake_lock
+    chmod 0666 /sys/android_power/acquire_partial_wake_lock
+
+    mkdir /dev/socket/qmux_radio
+    mkdir /dev/socket/qmux_audio
+    mkdir /dev/socket/qmux_gps
+    mkdir /dev/socket/qmux_bluetooth
+    chmod 2777 /dev/socket/qmux_*
+
+    chown media bluetooth /dev/socket/qmux_bluetooth
+    chmod 0666 /dev/socket/qmux_bluetooth/qmux_connect_socket
+    chown media bluetooth /dev/socket/qmux_bluetooth/qmux_connect_socket
+
+    chown gps gps /dev/socket/qmux_gps
+    chmod 0666 /dev/socket/qmux_gps/qmux_connect_socket
+    chown gps gps /dev/socket/qmux_gps/qmux_connect_socket
+
+    chown media audio /dev/socket/qmux_audio
+    chmod 0666 /dev/socket/qmux_audio/qmux_connect_socket
+    chown media audio /dev/socket/qmux_audio/qmux_connect_socket
+
+    chown radio radio /dev/socket/qmux_radio
+    chmod 0666 /dev/socket/qmux_radio/qmux_connect_socket
+    chown radio radio /dev/socket/qmux_radio/qmux_connect_socket
+    chmod 0666 /dev/socket/qmux_radio/proxy_qmux_connect_socket
+    chown radio radio /dev/socket/qmux_radio/proxy_qmux_connect_socket
+    chmod 0666 /dev/socket/qmux_radio/proxy_tether_connect_socket
+    chown radio radio /dev/socket/qmux_radio/proxy_tether_connect_socket
+
+    chmod 0666 /dev/hsic*
+
+# Allow qmuxd to assign port open wait time
     chown radio radio /sys/devices/virtual/hsicctl/hsicctl0/modem_wait
     chmod 666 /sys/devices/virtual/hsicctl/hsicctl0/modem_wait
 
@@ -87,8 +122,6 @@ on post-fs-data
     mkdir /data/misc/location/mq 0770 gps gps
     mkdir /data/misc/location/xtwifi 0770 gps gps
 
-    write /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal 1
-
 # SISO-ANDR_PERF :: START Changing scheduler to cfq and reseting cpu min freq to -1 after boot complete
 on property:sys.boot_completed=1
     write /sys/block/mmcblk0/queue/scheduler cfq
@@ -99,40 +132,6 @@ on property:sys.boot_completed=1
     write /proc/sys/net/ipv6/conf/rmnet_usb2/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet_usb3/accept_ra 2
 # SISO-ANDR_PERF :: END
-
-# QCRIL
-
-    chown system radio /sys/power/wake_lock
-    chmod 0666 /sys/power/wake_lock
-
-    chown system radio /sys/android_power/acquire_partial_wake_lock
-    chmod 0666 /sys/android_power/acquire_partial_wake_lock
-
-    chmod 2777 /dev/socket/qmux_gps
-    chown system gps /dev/socket/qmux_gps
-
-    chmod 0666 /dev/socket/qmux_gps/qmux_connect_socket
-    chown system gps /dev/socket/qmux_gps/qmux_connect_socket
-
-    chmod 2777 /dev/socket/qmux_audio
-    chown system audio /dev/socket/qmux_audio
-
-    chmod 0666 /dev/socket/qmux_audio/qmux_connect_socket
-    chown system audio /dev/socket/qmux_audio/qmux_connect_socket
-
-    chmod 2777 /dev/socket/qmux_radio
-    chown system radio /dev/socket/qmux_radio
-
-    chmod 0666 /dev/socket/qmux_radio/qmux_connect_socket
-    chown system radio /dev/socket/qmux_radio/qmux_connect_socket
-
-    chmod 0666 /dev/socket/qmux_radio/proxy_qmux_connect_socket
-    chown system radio /dev/socket/qmux_radio/proxy_qmux_connect_socket
-
-    chmod 0666 /dev/socket/qmux_radio/proxy_tether_connect_socket
-    chown system radio /dev/socket/qmux_radio/proxy_tether_connect_socket
-
-    chmod 0666 /dev/hsic*
 
 on property:init.svc.macloader=stopped
     chown system root /data/.cid.info

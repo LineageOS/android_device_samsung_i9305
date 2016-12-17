@@ -48,40 +48,29 @@ on post-fs-data
     chown system radio /dev/block/platform/dw_mmc/by-name
     chmod 0775 /dev/block/platform/dw_mmc/by-name
 
-# QCRIL
+# qmuxd
+    mkdir /dev/socket/qmux_radio 2777 radio radio
+    mkdir /dev/socket/qmux_audio 2777 media audio
+    mkdir /dev/socket/qmux_gps 2777 gps gps
+    mkdir /dev/socket/qmux_bluetooth 2777 media bluetooth
 
-    chown system radio /sys/power/wake_lock
-    chmod 0666 /sys/power/wake_lock
-    chown system radio /sys/android_power/acquire_partial_wake_lock
-    chmod 0666 /sys/android_power/acquire_partial_wake_lock
-
-    mkdir /dev/socket/qmux_radio
-    mkdir /dev/socket/qmux_audio
-    mkdir /dev/socket/qmux_gps
-    mkdir /dev/socket/qmux_bluetooth
-    chmod 2777 /dev/socket/qmux_*
-
-    chown media bluetooth /dev/socket/qmux_bluetooth
     chmod 0666 /dev/socket/qmux_bluetooth/qmux_connect_socket
     chown media bluetooth /dev/socket/qmux_bluetooth/qmux_connect_socket
 
-    chown gps gps /dev/socket/qmux_gps
     chmod 0666 /dev/socket/qmux_gps/qmux_connect_socket
     chown gps gps /dev/socket/qmux_gps/qmux_connect_socket
 
-    chown media audio /dev/socket/qmux_audio
     chmod 0666 /dev/socket/qmux_audio/qmux_connect_socket
     chown media audio /dev/socket/qmux_audio/qmux_connect_socket
 
-    chown radio radio /dev/socket/qmux_radio
     chmod 0666 /dev/socket/qmux_radio/qmux_connect_socket
     chown radio radio /dev/socket/qmux_radio/qmux_connect_socket
+
     chmod 0666 /dev/socket/qmux_radio/proxy_qmux_connect_socket
     chown radio radio /dev/socket/qmux_radio/proxy_qmux_connect_socket
+
     chmod 0666 /dev/socket/qmux_radio/proxy_tether_connect_socket
     chown radio radio /dev/socket/qmux_radio/proxy_tether_connect_socket
-
-    chmod 0666 /dev/hsic*
 
 # Allow qmuxd to assign port open wait time
     chown radio radio /sys/devices/virtual/hsicctl/hsicctl0/modem_wait

@@ -66,7 +66,6 @@ PRODUCT_PACKAGES += \
     sensors.smdk4x12
 
 PRODUCT_COPY_FILES += \
-    packages/apps/Nfc/migrate_nfc.txt:system/etc/updatecmds/migrate_nfc.txt \
     frameworks/base/nfc-extras/com.android.nfc_extras.xml:system/etc/permissions/com.android.nfc_extras.xml \
     frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml
 
@@ -82,8 +81,6 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PACKAGES += \
     com.android.nfc_extras
-
-$(call inherit-product, vendor/cm/config/nfc_enhanced.mk)
 
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \

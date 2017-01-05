@@ -1,10 +1,4 @@
-/dev/s3c-mfc					u:object_r:gpu_device:s0
-/dev/ump					u:object_r:gpu_device:s0
-/dev/mali					u:object_r:gpu_device:s0
-
-/data/ISP_CV					u:object_r:camera_data_file:s0
 /system/vendor/firmware/SlimISP(/.*)?		u:object_r:camera_data_file:s0
-/data/cfw(/.*)?					u:object_r:camera_data_file:s0
 
 /data/.cid.info					u:object_r:wifi_data_file:s0
 

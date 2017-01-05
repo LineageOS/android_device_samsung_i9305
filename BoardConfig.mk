@@ -40,6 +40,7 @@ TARGET_KERNEL_CONFIG := lineageos_i9305_defconfig
 # Recovery
 TARGET_RECOVERY_FSTAB := device/samsung/i9305/rootdir/fstab.smdk4x12
 RECOVERY_FSTAB_VERSION := 2
+TARGET_RECOVERY_DENSITY := mdpi
 
 # RIL
 BOARD_PROVIDES_LIBRIL := true

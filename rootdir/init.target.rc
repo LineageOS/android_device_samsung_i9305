@@ -148,11 +148,6 @@ service qc_kickstart /system/bin/qcks s
     user root
     group radio cache inet misc audio sdcard_rw log
 
-service qmiproxy /system/bin/qmiproxy
-    class main
-    user radio
-    group radio gps
-
 service qmuxd /system/bin/qmuxd
     class main
     user root

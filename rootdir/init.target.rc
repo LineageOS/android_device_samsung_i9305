@@ -41,6 +41,9 @@ on init
 on post-fs-data
 #########################################################################################################################
 
+# Telephony
+    chmod 0666 /proc/cmdline
+
 # wifi
     write /data/.cid.info 0
     restorecon /data/.cid.info

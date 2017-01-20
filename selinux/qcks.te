@@ -17,3 +17,5 @@ allow qcks vfat:dir search;
 allow qcks shell_exec:file { execute_no_trans read execute open };
 allow qcks radio_device:dir search;
 allow qcks unlabeled:dir search;
+allow qcks shell_exec:file getattr;
+allow qcks toolbox_exec:file { execute execute_no_trans getattr open read };

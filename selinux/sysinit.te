@@ -1,3 +1,5 @@
 allow sysinit self:capability { fowner chown fsetid };
 allow sysinit camera_data_file:file { create setattr read write getattr open };
 allow sysinit camera_data_file:dir { read open search write add_name getattr };
+allow sysinit firmware_exynos:dir { search getattr open read };
+allow sysinit firmware_exynos:file { getattr open read setattr write };

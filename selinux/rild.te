@@ -2,3 +2,4 @@ allow rild proc_net:file write;
 allow rild qmuxd:unix_stream_socket connectto;
 allow rild socket_device:dir { remove_name write add_name };
 allow rild socket_device:sock_file { unlink write create setattr };
+allow rild radio_data_file:lnk_file read;

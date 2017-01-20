@@ -12,7 +12,6 @@
 /system/bin/qcks				u:object_r:qcks_exec:s0
 /system/bin/efsks				u:object_r:efsks_exec:s0
 /system/bin/qmuxd				u:object_r:qmuxd_exec:s0
-/system/bin/qmiproxy				u:object_r:qmiproxy_exec:s0
 
 /dev/ttyUSB0					u:object_r:serial_device:s0
 /dev/ttySAC0					u:object_r:serial_device:s0
@@ -29,6 +28,7 @@
 
 /data/misc/radio(/.*)?				u:object_r:radio_data_file:s0
 /tombstones/qcks(/.*)?				u:object_r:radio_data_file:s0
+/tombstones/qcks/temp.dump			u:object_r:radio_data_file:s0
 /efs/FactoryApp(/.*)?				u:object_r:radio_data_file:s0
 /efs/imei					u:object_r:radio_data_file:s0
 

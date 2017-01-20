@@ -1,1 +1,2 @@
 allow wpa radio_device:chr_file { open read };
+allow wpa sysfs_bluetooth_writable:dir search;

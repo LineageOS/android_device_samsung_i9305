@@ -92,8 +92,10 @@ on post-fs-data
 # Restorecon
     restorecon_recursive /efs
     restorecon_recursive /tombstones
+    restorecon /tombstones/qcks/temp.dump
     restorecon /data/.cid.info
     restorecon /data/ISP_CV
+    restorecon_recursive /efs/wifi
 
 # Waketime fot fast dormancy
     chown system radio /sys/devices/platform/mdm_hsic_pm0/waketime

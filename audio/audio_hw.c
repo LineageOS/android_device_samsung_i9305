@@ -106,6 +106,7 @@ struct m0_audio_device {
     int tty_mode;
     struct echo_reference_itfe *echo_reference;
     bool bluetooth_nrec;
+    int wb_amr;
     bool screen_off;
 };
 
@@ -420,7 +421,6 @@ static int start_call(struct m0_audio_device *adev)
        /* use amr-wb by default */
        pcm_config_vx.rate = VX_WB_SAMPLING_RATE;
     }
-
     /* Open modem PCM channels */
     if (adev->pcm_modem_dl == NULL) {
         ALOGD("Opening PCM modem DL stream");
@@ -3220,6 +3220,7 @@ static int adev_open(const hw_module_t* module, const char* name,
     adev->voice_volume = 1.0f;
     adev->tty_mode = TTY_MODE_OFF;
     adev->bluetooth_nrec = true;
+    adev->wb_amr = 0;
 
     /* QCOM CSD-Client */
     mCsdHandle = dlopen(CSD_CLIENT_LIBPATH, RTLD_NOW);

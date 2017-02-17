@@ -32,4 +32,5 @@
 /dev/block/mmcblk0p4				u:object_r:mmc_block_device:s0
 /dev/block/mmcblk0p5				u:object_r:mmc_block_device:s0
 /dev/block/mmcblk0p6				u:object_r:mmc_block_device:s0
+/dev/block/mmcblk0p12				u:object_r:mmc_block_device:s0
 

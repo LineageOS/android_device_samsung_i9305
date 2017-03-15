@@ -58,8 +58,7 @@ PRODUCT_PACKAGES += \
     libsecril-client-sap
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    mobiledata.interfaces=pdp0,gprs,ppp0,rmnet0,rmnet1 \
-    ro.telephony.ril_class=smdk4x12QComRIL
+    mobiledata.interfaces=pdp0,gprs,ppp0,rmnet0,rmnet1
 
 # Sensors
 PRODUCT_PACKAGES += \

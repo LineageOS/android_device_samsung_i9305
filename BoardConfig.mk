@@ -22,8 +22,6 @@
 
 LOCAL_PATH := device/samsung/i9305
 
-TARGET_SPECIFIC_HEADER_PATH += $(LOCAL_PATH)/include
-
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 
@@ -45,7 +43,6 @@ TARGET_RECOVERY_DENSITY := mdpi
 # RIL
 BOARD_PROVIDES_LIBRIL := true
 BOARD_MODEM_TYPE := mdm9x35
-BOARD_RIL_CLASS := ../../../device/samsung/i9305/ril
 
 # assert
 TARGET_OTA_ASSERT_DEVICE := m3,m3xx,i9305,GT-I9305

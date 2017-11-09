@@ -27,7 +27,7 @@
 /data/misc/radio(/.*)?				u:object_r:radio_data_file:s0
 /tombstones/qcks(/.*)?				u:object_r:radio_data_file:s0
 /efs/FactoryApp(/.*)?				u:object_r:radio_data_file:s0
-/efs/imei					u:object_r:radio_data_file:s0
+/efs/imei(/.*)?					u:object_r:radio_data_file:s0
 
 /dev/block/mmcblk0p4				u:object_r:mmc_block_device:s0
 /dev/block/mmcblk0p5				u:object_r:mmc_block_device:s0

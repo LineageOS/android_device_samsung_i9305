@@ -33,8 +33,10 @@
 /sys/devices/platform/samsung-pd.2/mdnie(/.*)?	u:object_r:sysfs_mdnie:s0
 /sys/bus/platform/devices/mdnie(/.*)?		u:object_r:sysfs_mdnie:s0
 
-/dev/block/mmcblk0p4				u:object_r:mmc_block_device:s0
-/dev/block/mmcblk0p5				u:object_r:mmc_block_device:s0
-/dev/block/mmcblk0p6				u:object_r:mmc_block_device:s0
-/dev/block/mmcblk0p12				u:object_r:mmc_block_device:s0
-/dev/block/mmcblk0p16                           u:object_r:mmc_block_device:s0
+/dev/block/mmcblk0p3				u:object_r:efs_block_device:s0
+/dev/block/mmcblk0p4				u:object_r:efs_block_device:s0
+/dev/block/mmcblk0p5				u:object_r:efs_block_device:s0
+/dev/block/mmcblk0p6				u:object_r:efs_block_device:s0
+/dev/block/mmcblk0p11				u:object_r:efs_block_device:s0
+/dev/block/mmcblk0p13				u:object_r:system_block_device:s0
+/dev/block/mmcblk0p16				u:object_r:userdata_block_device:s0

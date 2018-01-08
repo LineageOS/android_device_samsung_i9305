@@ -50,6 +50,9 @@ TARGET_OTA_ASSERT_DEVICE := m3,m3xx,i9305,GT-I9305
 # inherit from the proprietary version
 -include vendor/samsung/i9305/BoardConfigVendor.mk
 
+# PowerHAL
+TARGET_POWERHAL_VARIANT := pegasusq
+
 # Selinux
 BOARD_SEPOLICY_DIRS += \
     device/samsung/i9305/selinux

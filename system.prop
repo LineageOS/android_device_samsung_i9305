@@ -12,3 +12,4 @@ ro.sf.lcd_density=320
 ro.lcd_min_brightness=20
 ro.egl.destroy_after_detach=true
 persist.radio.add_power_save=1
+ro.debug_level=0x4f4c
